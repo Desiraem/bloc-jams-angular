@@ -35,17 +35,9 @@ body.landing{
     position: relative;
     padding: 2rem;
     text-align: center;
-    opacity: 0;
-     -webkit-transform: scaleX(0.9) translateY(3rem);
-     -moz-transform: scaleX(0.9) translateY(3rem);
-     transform: scaleX(0.9) translateY(3rem);
-     -webkit-transition: all 1.35s cubic-bezier(.57, -0.37, .61, -0.39);
-     -moz-transition: all 1.35s cubic-bezier(.57, -0.37, .61, -0.39);
-     transition: all 1.35s cubic-bezier(.57, -0.37, .61, -0.39);
-     -webkit-transition-delay: 0.2s;
-     -moz-transition-delay: 0.2s;
-     transition-delay: 0.2s;
+    opacity: 1;
 }
+
 .topDown {
      -webkit-transform: scaleX(-0.9) translateY-(3rem);
      -moz-transform: scaleX(-0.9) translateY(-3rem);
