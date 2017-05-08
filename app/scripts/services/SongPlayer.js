@@ -1,8 +1,12 @@
 (function() {
     function SongPlayer() {
         var SongPlayer = {};
-        
+        /**
+        * @desc private attribute to hold current Song object 
+        * @type {object}
+        */
         var currentSong = null;
+
         /**
         * @desc Buzz object audio file
         * @type {object}
@@ -28,21 +32,38 @@
             currentSong = song;
             
         };
+
+        /**
+        * @function playSong
+        * @desc current song and sets public attribute to true
+        * @param {object} song
+        */
+        var playSong = function(song) {
+           currentBuzzObject.play();
+           song.playing = true; 
+        };
         
+        /**
+        * @function public function SongPlayer.play
+        * @desc depending on song selected, it stops currently playing song and loads new audio file as currentBuzzObject, if necessary and plays current song and sets public attribute to true
+        * @param {object} song
+        */
         SongPlayer.play = function(song) {
             if (currentSong !== song) {
                 setSong(song);
-                currentBuzzObject.play();
-                song.playing = true;
+                playSong(song);
             } else if (currentSong === song) {
                 if (currentBuzzObject.isPaused()) {
-                    currentBuzzObject.play();
-                    song.playing = true;
+                    playSong(song);
                 }
             }
-           
         };
         
+        /**
+        * @function public function SongPlayer.pause
+        * @desc pauses current song and sets public attribute to false
+        * @param {object} song
+        */
         SongPlayer.pause = function(song) {
             currentBuzzObject.pause();
             song.playing = false;
