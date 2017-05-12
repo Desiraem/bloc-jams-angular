@@ -1,5 +1,5 @@
 (function() {
-    function SongPlayer(Fixtures) {
+    function SongPlayer($rootScope, Fixtures) {
         var SongPlayer = {};
         
         /**
@@ -28,6 +28,12 @@
             currentBuzzObject = new buzz.sound(song.audioUrl, {
                 formats: ['mp3'],
                 preload: true
+            });
+            
+            currentBuzzObject.bind('timeupdate', function() {
+                $rootScope.$apply(function() {
+                    SongPlayer.currentTime = currentBuzzObject.getTime();
+                });
             });
             
             SongPlayer.currentSong = song;
@@ -69,13 +75,19 @@
         * @type {object}
         */
         SongPlayer.currentSong = null;
+        
+        /**
+        * @desc Current playback time (in seconds) of currently playing song
+        * @type {Number}
+        */
+        SongPlayer.currentTime = null;
 
         /**
         * @function public function SongPlayer.play
         * @desc depending on song selected, it stops currently playing song and loads new audio file as currentBuzzObject, if necessary and plays current song and sets public attribute to true
         * @param {object} song
         */
-        SongPlayer.play = function(song) {
+        SongPlayer.play = function play(song) {
             song = song || SongPlayer.currentSong;
             if (SongPlayer.currentSong !== song) {
                 setSong(song);
@@ -92,7 +104,7 @@
         * @desc pauses current song and sets public attribute to false
         * @param {object} song
         */
-        SongPlayer.pause = function(song) {
+        SongPlayer.pause = function pause(song) {
             song = song || SongPlayer.currentSong;
             currentBuzzObject.pause();
             song.playing = false;
@@ -103,7 +115,7 @@
         * @desc get the index of the song before the active song and set that to active song and play it
         * @param {object} song
         */
-        SongPlayer.previous = function() {
+        SongPlayer.previous = function previous() {
             var currentSongIndex = getSongIndex(SongPlayer.currentSong);
             currentSongIndex--;
             
@@ -121,7 +133,7 @@
         * @desc get the index of the song afater the active song and set that to active song and play it
         * @param {object} song
         */
-        SongPlayer.next = function() {
+        SongPlayer.next = function next() {
             var currentSongIndex = getSongIndex(SongPlayer.currentSong);
             currentSongIndex++;
             
@@ -133,11 +145,22 @@
                 playSong(song);
             }
         };
+        
+        /**
+        * @function setCurrentTime
+        * @desc Set current time (in seconds) of currently playing song
+        * @param {Number} time
+        */
+        SongPlayer.setCurrentTime = function setCurrentTime (time) {
+            if (currentBuzzObject) {
+                currentBuzzObject.setTime(time);
+            }
+        };
 
         return SongPlayer;
     }
     
     angular
         .module('blocJams')
-        .factory('SongPlayer', ['Fixtures', SongPlayer]);
+        .factory('SongPlayer', ['$rootScope', 'Fixtures', SongPlayer]);
 })();
