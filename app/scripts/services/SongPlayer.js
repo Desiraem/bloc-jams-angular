@@ -30,11 +30,13 @@
                 preload: true
             });
             
+
             currentBuzzObject.bind('timeupdate', function() {
                 $rootScope.$apply(function() {
                     SongPlayer.currentTime = currentBuzzObject.getTime();
                 });
             });
+
             
             SongPlayer.currentSong = song;
             
@@ -82,6 +84,12 @@
         */
         SongPlayer.currentTime = null;
 
+        /**
+        * @desc current volume of active sone
+        * @type {Number}
+        */
+        SongPlayer.volume = null;
+        
         /**
         * @function public function SongPlayer.play
         * @desc depending on song selected, it stops currently playing song and loads new audio file as currentBuzzObject, if necessary and plays current song and sets public attribute to true
@@ -154,6 +162,17 @@
         SongPlayer.setCurrentTime = function setCurrentTime (time) {
             if (currentBuzzObject) {
                 currentBuzzObject.setTime(time);
+            }
+        };
+        
+         /**
+        * @function setVolume
+        * @desc Set volume of currently playing song
+        * @param {Number} time
+        */
+        SongPlayer.setVolume = function setVolume (volume) {
+            if (currentBuzzObject) {
+                currentBuzzObject.setVolume(volume);
             }
         };
 

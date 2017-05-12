@@ -17,13 +17,13 @@
                 onChange: '&'
             },
             link: function(scope, element, attributes) {
-                scope.value = 0;
+                scope.setAt = 0;
                 scope.max = 100;
                 
                 var seekBar = $(element);
                 
-                attributes.$observe('value', function(newValue) {
-                    scope.value = newValue;
+                attributes.$observe('setAt', function(newValue) {
+                    scope.setAt = newValue;
                 });
                 
                 attributes.$observe('max', function(newValue) {
@@ -31,9 +31,9 @@
                 });
                 
                 var percentString = function() {
-                    var value = scope.value;
+                    var curValue = scope.setAt;
                     var max = scope.max;
-                    var percent = value / max * 100;
+                    var percent = curValue / max * 100;
                     return percent + "%";
                 };
                 
@@ -47,16 +47,16 @@
 
                 scope.onClickSeekBar = function(event) {
                     var percent = calculatePercent(seekBar, event);
-                    scope.value = percent * scope.max;
-                    notifyOnChange(scope.value);
+                    scope.setAt = percent * scope.max;
+                    notifyOnChange(scope.setAt);
                 };
                 
                 scope.trackThumb = function() {
                     $document.bind('mousemove.thumb', function(event) {
                         var percent = calculatePercent(seekBar, event);
                         scope.$apply(function() {
-                            scope.value = percent * scope.max;
-                            notifyOnChange(scope.value);
+                            scope.setAt = percent * scope.max;
+                            notifyOnChange(scope.setAt);
                         });
                     });
                     
@@ -66,9 +66,9 @@
                     });
                 };
                 
-                var notifyOnChange = function notifyOnChange(newValue) {
+                var notifyOnChange = function notifyOnChange(nextValue) {
                     if (typeof scope.onChange === 'function') {
-                        scope.onChange({value: newValue});
+                        scope.onChange({value: nextValue});
                     }
                 };
                 
