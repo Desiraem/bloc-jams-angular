@@ -33,7 +33,7 @@
 
             currentBuzzObject.bind('timeupdate', function() {
                 $rootScope.$apply(function() {
-                    SongPlayer.currentTime = currentBuzzObject.getTime();
+                    SongPlayer.currentTime = buzz.toTimer(currentBuzzObject.getTime());
                 });
             });
 
