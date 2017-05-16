@@ -17,13 +17,13 @@
                 onChange: '&'
             },
             link: function(scope, element, attributes) {
-                scope.setAt = 0;
+                scope.value = 0;
                 scope.max = 100;
                 
                 var seekBar = $(element);
                 
-                attributes.$observe('setAt', function(newValue) {
-                    scope.setAt = newValue;
+                attributes.$observe('value', function(newValue) {
+                    scope.value = newValue;
                 });
                 
                 attributes.$observe('max', function(newValue) {
@@ -31,9 +31,9 @@
                 });
                 
                 var percentString = function() {
-                    var curValue = scope.setAt;
+                    var value = scope.value;
                     var max = scope.max;
-                    var percent = curValue / max * 100;
+                    var percent = value / max * 100;
                     return percent + "%";
                 };
                 
@@ -47,16 +47,16 @@
 
                 scope.onClickSeekBar = function(event) {
                     var percent = calculatePercent(seekBar, event);
-                    scope.setAt = percent * scope.max;
-                    notifyOnChange(scope.setAt);
+                    scope.value = percent * scope.max;
+                    notifyOnChange(scope.value);
                 };
                 
                 scope.trackThumb = function() {
                     $document.bind('mousemove.thumb', function(event) {
                         var percent = calculatePercent(seekBar, event);
                         scope.$apply(function() {
-                            scope.setAt = percent * scope.max;
-                            notifyOnChange(scope.setAt);
+                            scope.value = percent * scope.max;
+                            notifyOnChange(scope.value);
                         });
                     });
                     
