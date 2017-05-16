@@ -100,8 +100,8 @@
             if (SongPlayer.currentSong !== song) {
                 setSong(song);
                 playSong(song);
-            } else if (SongPlayer.currentSong === song) {
-                if (currentBuzzObject.isPaused()) {
+            } else if (SongPlayer.currentSong === song && currentBuzzObject !== null) {
+                if (currentBuzzObject.isPaused() ) {
                     playSong(song);
                 }
             }
