@@ -1,6 +1,6 @@
 (function () {
     function seekBar($document) {
-        var calculatePercent = function (seekBar, event) {
+        var calculatePercent = function(seekBar, event) {
             var offsetX = event.pageX - seekBar.offset().left;
             var seekBarWidth = seekBar.width();
             var offsetXPercent = offsetX / seekBarWidth;
@@ -66,9 +66,9 @@
                     });
                 };
                 
-                var notifyOnChange = function notifyOnChange(nextValue) {
+                var notifyOnChange = function(newValue) {
                     if (typeof scope.onChange === 'function') {
-                        scope.onChange({value: nextValue});
+                        scope.onChange({value: newValue});
                     }
                 };
                 

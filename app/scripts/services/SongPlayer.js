@@ -33,7 +33,13 @@
 
             currentBuzzObject.bind('timeupdate', function() {
                 $rootScope.$apply(function() {
-                    SongPlayer.currentTime = buzz.toTimer(currentBuzzObject.getTime());
+                    SongPlayer.currentTime = currentBuzzObject.getTime();
+                });
+            });
+
+            currentBuzzObject.bind('ended', function() {
+                $rootScope.$apply(function() {
+                    SongPlayer.next();
                 });
             });
 
@@ -128,12 +134,14 @@
             currentSongIndex--;
             
             if (currentSongIndex < 0) {
-                stopSong(SongPlayer.currentSong);
-            } else {
-                var song = currentAlbum.songs[currentSongIndex];
-                setSong(song);
-                playSong(song);
-            }
+                //stopSong(SongPlayer.currentSong);
+                currentSongIndex = (currentAlbum.songs.length - 1)
+            } 
+            
+            var song = currentAlbum.songs[currentSongIndex];
+            setSong(song);
+            playSong(song);
+            
         };
 
                 /**
@@ -144,14 +152,21 @@
         SongPlayer.next = function next() {
             var currentSongIndex = getSongIndex(SongPlayer.currentSong);
             currentSongIndex++;
-            
-            if (currentSongIndex > currentAlbum.songs.length) {
-                stopSong(SongPlayer.currentSong);
-            } else {
+           /* currentSongIndex = 0;
                 var song = currentAlbum.songs[currentSongIndex];
                 setSong(song);
                 playSong(song);
-            }
+            */
+            
+            if (currentSongIndex == currentAlbum.songs.length) {
+                //stopSong(SongPlayer.currentSong);
+                currentSongIndex = 0;
+                } 
+             
+            var song = currentAlbum.songs[currentSongIndex];
+            setSong(song);
+            playSong(song);
+            
         };
         
         /**
@@ -159,7 +174,7 @@
         * @desc Set current time (in seconds) of currently playing song
         * @param {Number} time
         */
-        SongPlayer.setCurrentTime = function setCurrentTime (time) {
+        SongPlayer.setCurrentTime = function (time) {
             if (currentBuzzObject) {
                 currentBuzzObject.setTime(time);
             }
@@ -170,7 +185,7 @@
         * @desc Set volume of currently playing song
         * @param {Number} time
         */
-        SongPlayer.setVolume = function setVolume (volume) {
+        SongPlayer.setVolume = function (volume) {
             if (currentBuzzObject) {
                 currentBuzzObject.setVolume(volume);
             }
